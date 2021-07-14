@@ -1,0 +1,76 @@
+<!--Cabeçalho-->
+<div th:replace="fragments/header :: modelheader"></div>
+
+<!--Conteúdo-->
+<div class="container shadow p-3 mb-5 bg-body rounded mt-4">
+    <div>
+        <i th:class="${!#strings.isEmpty(erroCliente)}?'fas fs-6 text-danger p-1 ps-0 fa-exclamation-triangle'"
+           th:text="${!#strings.isEmpty(erroCliente)}?${erroCliente}"></i>
+        <i th:class="${!#strings.isEmpty(success)}?'fas fs-6 text-success p-1 ps-0 fa-check-circle'"
+           th:text="${!#strings.isEmpty(success)}?${success}"></i>
+    </div>
+    <div class="card">
+        <div class="card-header d-flex justify-content-between">
+            <h5 class="align-self-center m-0">Lista de Clientes</h5>
+            <div class="d-flex justify-content-between">
+                <form th:action="@{/clientes/filtrarcliente}"
+                      class="d-flex float-sm-end align-self-center m-0">
+                    <div class="d-flex d-inline position-relative ms-2 me-2">
+                        <span class="align-self-center position-absolute ms-2">
+                            <i class="fa fa-search text-primary fs-5"  aria-hidden="true"></i>
+                        </span>
+                        <input class="form-control btn-sm text-black-50" style="padding-left: 35px" placeholder="Filtrar pelo nome..."
+                               th:name="filtrarNome" type="text">
+                    </div>
+                    <div>
+                        <i th:class="${!#strings.isEmpty(erroNome)}?'fas fs-6 text-danger p-1 ps-0 fa-exclamation-triangle'"
+                           th:text="${!#strings.isEmpty(erroNome)}?${erroNome}"></i>
+                    </div>
+                </form>
+                <div class="align-self-center">
+                    <a class="btn btn-outline-primary ms-2" th:href="@{/clientes/list}"
+                       title="Limpar filtro" type="reset">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-hover table-striped border">
+                <thead>
+                <tr class="fs-6 bg-dark text-white">
+                    <th class="col-1">Cod.</th>
+                    <th class="col-3">Nome</th>
+                    <th class="col-7">CPF</th>
+                    <th class="col">Opções</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${clientesPF}">
+                    <td th:text="${c.id}"></td>
+                    <td th:text="${c.nome}"></td>
+                    <td th:text="${c.cpf}"></td>
+                    <td>
+                        <a type="button" class="btn btn-sm btn-primary" title="Editar"
+                           th:href="@{/clientes/edit/{id}(id=${c.id})}"><i class="fa fa-edit"> </i>
+                        </a>
+                        <a type="button" class="btn btn-sm btn-danger" title="Excluir"
+                           onclick="return window.confirm('Tem certeza que deseja excluir este cliente?')"
+                           th:href="@{/clientes/remove/{id}(id=${c.id})}">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between aling-items-center mb-3" style="position: relative; top:15px">
+                <a class="btn btn-dark" th:href="@{/}">Voltar</a>
+                <a class="btn btn-dark" th:href="@{/clientes/form}">Novo Cliente</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Rodapé-->
+<div th:replace="fragments/footer :: modelfooter"></div>

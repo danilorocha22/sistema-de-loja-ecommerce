@@ -1,0 +1,53 @@
+<!--Cabeçalho-->
+<div th:replace="fragments/header :: modelheader"></div>
+
+<!--Conteúdo-->
+<div class="container shadow p-3 mb-5 bg-body rounded mt-4">
+    <div>
+        <i th:class="${!#strings.isEmpty(erroProduto)}?'fas fs-6 text-danger p-1 ps-0 fa-exclamation-triangle'"
+           th:text="${!#strings.isEmpty(erroProduto)}?${erroProduto}"></i>
+        <i th:class="${!#strings.isEmpty(success)}?'fas fs-6 text-success p-1 ps-0 fa-check-circle'"
+           th:text="${!#strings.isEmpty(success)}?${success}"></i>
+    </div>
+    <div class="card">
+        <h5 class="card-header p-3">Produtos Cadastrados</h5>
+        <div class="card-body">
+            <table class="table table-hover table-striped border" >
+                <thead>
+                    <tr class="fs-6 bg-dark text-white">
+                        <th class="col-1">Cod.</th>
+                        <th class="col-2">Produto</th>
+                        <th class="col-3">Descrição</th>
+                        <th class="col-5">Valor</th>
+                        <th class="col-2">Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="p : ${produtos}">
+                        <td th:text="${p.id}"> </td>
+                        <td th:text="${p.nome}"> </td>
+                        <td th:text="${p.descricao}"> </td>
+                        <td th:text="${#numbers.formatCurrency(p.valor)}"> </td>
+                        <td>
+                            <a type="button" class="btn btn-sm btn-primary" title="Editar"
+                               th:href="@{/produtos/edit/{id}(id=${p.id})}"><i class = "fa fa-edit"> </i>
+                            </a>
+                            <a type="button" class="btn btn-sm btn-danger" title="Excluir"
+                               onclick="return window.confirm('Tem certeza que deseja excluir este produto?')"
+                               th:href="@{/produtos/remove/{id}(id=${p.id})}">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between aling-items-center mb-3" style="position: relative; top:15px">
+                <a class="btn btn-dark" th:href="@{/}">Voltar</a>
+                <a class="btn btn-dark" th:href="@{/produtos/form}">Novo Produto</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Rodapé-->
+<div th:replace="fragments/footer :: modelfooter"></div>

@@ -1,0 +1,62 @@
+<!--Cabeçalho-->
+<div th:replace="fragments/header :: modelheader"></div>
+
+<!--Conteúdo-->
+<div class="container shadow p-3 mb-5 bg-body rounded mt-4">
+    <div class="card">
+        <div class="card-header  d-flex justify-content-between">
+            <h5 class="align-self-center m-0">Minhas Compras</h5>
+            <form th:action="@{/vendas/filtrardatacompras}" class="float-sm-end align-self-center m-0">
+                <label class="fs-6">Filtrar pela data
+                    <div class="d-flex d-inline">
+                        <input class="form-control btn-sm text-black-50" th:name="filtrarData" type="date">
+                        <div class="align-self-center">
+                            <button class="btn btn-outline-primary ms-2" title="Pesquisar" type="submit">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="align-self-center">
+                            <a class="btn btn-outline-primary ms-2"  th:href="@{/vendas/minhascompras}"
+                               title="Limpar filtro">
+                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <i th:class="${!#strings.isEmpty(erroData)}?'fas fs-6 text-danger p-1 ps-0 fa-exclamation-triangle'"
+                           th:text="${!#strings.isEmpty(erroData)}?${erroData}"></i>
+                    </div>
+                </label>
+            </form>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover table-striped border">
+                <thead>
+                <tr class="bg-dark fs-7 btn-sm text-white">
+                    <th class="col-1">NF nº</th>
+                    <th class="col-2">Data da compra</th>
+                    <th class="col-7">Valor Total</th>
+                    <th class="col-1">Nota Fiscal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="v , i : ${vendas}">
+                    <td th:text="${v.id}"> </td>
+                    <td th:text="${#temporals.format(v.localDate, 'dd/MM/yyyy')}"> </td>
+                    <td th:text="${#numbers.formatCurrency(v.vlTotalVenda())}"> </td>
+                    <td>
+                        <a type="button" class="btn btn-sm btn-primary p-1 mx-4"
+                           th:href="@{/vendas/detalhesdacompra/{id}(id=${v.id})}">
+                           <i class="fa fa-list-alt fs-5" title="Abrir"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <!--<a class="btn btn-dark"  th:href="@{/vendas/catalogo}">Catálogo</a>-->
+        </div>
+    </div>
+</div>
+
+<!--Cabeçalho-->
+<div th:replace="fragments/footer :: modelfooter"></div>

@@ -1,0 +1,40 @@
+<!--Cabeçalho-->
+<div th:replace="fragments/header :: modelheader"></div>
+
+<!--Conteúdo-->
+<div class="container mb-4">
+    <div class="alert alert-dander m-0 p-0 d-flex justify-content-center" role="alert" >
+        <span></span>
+        <i th:class="${!#strings.isEmpty(itemVenda.qtd)}?'alert alert-danger fas fs-4 mb-1 text-danger p-2 fa-exclamation-triangle'"
+           th:errors='${itemVenda.qtd}'>
+        </i>
+        <span></span>
+    </div>
+    <div class="row row-cols-3 row-cols-md-4 text-center">
+        <th:block th:each="p, i : ${produtos}">
+            <div class="col">
+                <div class="card card-cover overflow-hidden mt-3 rounded-3 shadow-lg">
+                    <div class="card-header py-3">
+                        <h2 class="my-0 fw-normal" th:text="${p.nome}"></h2>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-title pricing-card-title" th:text="${#numbers.formatCurrency(p.valor)}"></h2>
+                        <span class="fs-5 card-text" th:text="${p.nome}"></span>
+                        <p class="fs-5 card-text" th:text="${p.descricao}"></p>
+                        <form th:action="@{/vendas/add}" th:object="${itemVenda}" method="post">
+                            <input type="hidden" th:value="${p.id}" th:name="produto.id">
+                            <div class="d-flex justify-content-center input-group input-group-sm mb-3">
+                                <span class="input-group-text">Qtd.</span>
+                                <input class="d-inline-flex col-3" min="0" type="number" th:field="*{qtd}"><br>
+                            </div>
+                            <button type="submit" class="fs-4 btn btn-lg btn-outline-primary">Comprar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+
+<!--Rodapé-->
+<div th:replace="fragments/footer :: modelfooter"></div>

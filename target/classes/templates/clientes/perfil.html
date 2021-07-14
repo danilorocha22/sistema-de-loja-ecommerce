@@ -1,0 +1,41 @@
+<!--Cabeçalho-->
+<div th:replace="fragments/header :: modelheader"></div>
+
+<!--Conteúdo-->
+<div class="container shadow p-3 mb-5 bg-body rounded mt-4">
+    <div class="card">
+        <div class="card-header  d-flex justify-content-between">
+            <h5 class="align-self-center m-0">Meu cadastro</h5>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-hover table-striped border">
+                <thead>
+                <tr class="fs-6 bg-dark text-white">
+                    <th class="col-3">Nome</th>
+                    <th class="col-2">CPF</th>
+                    <th class="col-2">Usuário</th>
+                    <th class="col-6">Senha</th>
+                    <th class="col">Editar</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${clientesPF}">
+                    <td th:text="${c.nome}"></td>
+                    <td th:text="${c.cpf}"></td>
+                    <td th:text="${c.usuario.login}"></td>
+                    <td th:text="${c.usuario.password}"></td>
+                    <td>
+                        <a type="button" class="btn btn-sm btn-primary" title="Atualizar cadastro"
+                           th:href="@{/clientes/edit/{id}(id=${c.id})}"><i class="fa fa-edit"> </i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!--Rodapé-->
+<div th:replace="fragments/footer :: modelfooter"></div>

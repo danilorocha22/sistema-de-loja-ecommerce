@@ -1,0 +1,73 @@
+<!--Cabeçalho-->
+<div th:replace="fragments/header :: modelheader"></div>
+
+<!--Conteúdo-->
+<div class="container shadow p-3 pb-1 bg-body rounded mb-4 mt-4">
+    <div id="div" class="row order-md-last">
+        <span>
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-primary">Seu Carrinho <i class="fas fa-1x fa-shopping-cart"></i></span>
+                <span id="ct" class="badge bg-primary rounded-pill"> </span>
+            </h4>
+        </span>
+        <div class="container">
+            <ul th:each="iv,i : ${session.venda.itensVenda}" class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div class="col-1">
+                        <h6 class="my-0">Item</h6>
+                        <small th:text="${i.index+1}" class="text-muted"></small>
+                    </div>
+                    <div class="col-4">
+                        <h6 th:text="${iv.produto.nome}" class="my-0"></h6>
+                        <small th:text="${iv.produto.descricao}" class="text-muted"></small>
+                    </div>
+                    <div class="col-2">
+                        <h6 class="my-0">Qt. </h6>
+                        <small th:text="${iv.qtd}" class="text-muted"></small>
+                    </div>
+                    <div class="col-2">
+                        <h6 class="my-0">Vl. Unt </h6>
+                        <small th:text="${#numbers.formatCurrency(iv.produto.valor)}" class="text-muted"></small>
+                    </div>
+                    <div class="align-self-center">
+                        <a type="button" title="Excluir item" class="btn btn-sm btn-danger"
+                           th:href="@{/vendas/removeitem/{i}(i=${i.index})}"><i class="fa fa-trash"
+                            aria-hidden="true"></i></a>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total do Item</span>
+                    <strong th:text="${#numbers.formatCurrency(iv.vlTotalItem())}"></strong>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <div>
+            <i th:class="${!#strings.isEmpty(erroItens)}?'fas fs-4 text-danger p-1 ms-1 fa-exclamation-triangle'"
+               th:text="${!#strings.isEmpty(erroItens)}?${erroItens}"></i>
+        </div>
+        <div>
+            <h5>
+                <span><strong>Total da Compra: </strong></span>
+                <strong th:text="${#numbers.formatCurrency(session.venda.vlTotalVenda())}"></strong>
+            </h5>
+        </div>
+    </div>
+    <div class="mt-0">
+        <div>
+            <form th:action="@{/vendas/save}" th:object="${venda}" class="pt-2 container"
+                  method="post">
+                <!--<input type="hidden" th:field="*{id}" >-->
+                <input type="hidden" th:value="${cliente}" th:name="venda.cliente" >
+                <div class="d-flex justify-content-between aling-items-center">
+                    <a class="d-inline btn btn-primary" th:href="@{/vendas/catalogo}">Voltar às Compras</a>
+                    <input class="d-inline btn btn-success" type="submit" value="Finalizar Compra">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Rodapé-->
+<div th:replace="fragments/footer :: modelfooter"></div>

@@ -1,0 +1,60 @@
+<!--Cabeçalho-->
+<div th:replace="fragments/header :: modelheader"></div>
+
+<!--Conteúdo-->
+<div class="container shadow p-3 mb-5 bg-body rounded mt-4">
+    <div class="card">
+        <div class="card-header  d-flex justify-content-between">
+            <h5 class="align-self-center m-0 d-flex d-inline">Nota Fiscal nº
+                <div class="ms-1" th:text="${itensVenda[0].venda.id}"></div>
+            </h5>
+            <div>
+                <h5 class="align-self-center m-0 d-flex d-inline">
+                    <span class="me-1">Cliente: </span>
+                    <div th:text="${itensVenda[0].venda.cliente.nome}"> </div>
+                </h5>
+            </div>
+            <div>
+                <h5 class="align-self-center m-0 d-flex d-inline">
+                    <span class="me-1">Emitida em: </span>
+                    <div th:text="${#temporals.format(itensVenda[0].venda.localDate, 'dd/MM/yyyy')}"></div>
+                </h5>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover table-striped border">
+                <thead>
+                <tr class="bg-dark fs-7 btn-sm text-white">
+                    <th class="col-1">Item</th>
+                    <th class="col-1">Qtd</th>
+                    <th class="col-7">Produto</th>
+                    <th class="col-2">Vl. Unit</th>
+                    <th class="col">Total do Item</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="iv, i : ${itensVenda}">
+                    <td th:text="${i.index+1}"> </td>
+                    <td th:text="${iv.qtd}"> </td>
+                    <td th:text="${iv.produto.nome}"> </td>
+                    <td th:text="${#numbers.formatCurrency(iv.produto.valor)}"></td>
+                    <td th:text="${#numbers.formatCurrency(iv.vlTotalItem())}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-dark align-self-center"  th:href="@{/vendas/list}">Voltar</a>
+                <div>
+                    <h5 class="align-self-center">
+                        <span><strong>Total da Venda: </strong></span>
+                        <strong th:text="${#numbers.formatCurrency(itensVenda[0].venda.vlTotalVenda())}"></strong>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Rodapé-->
+<div th:replace="fragments/footer :: modelfooter"></div>
